@@ -60,14 +60,12 @@ tr:hover {
 </style>
 
 <h1 style="color: green;">Allergieën in het gezin</h1>
-
 <div class="table-container">
-
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Naam</th>
-                <th>TypePersoon</th>
+                <th>Type Persoon</th>
                 <th>Gezinsrol</th>
                 <th>Allergie</th>
             </tr>
@@ -76,25 +74,24 @@ tr:hover {
             <?php
             // Assuming $data['Allergie'] is the array containing Allergie data
             if (isset($data['Allergie']) && is_array($data['Allergie'])) {
-                foreach ($data['Allergie'] as $Allergie) {
-                    $AllergieId = isset($Allergie->Id) ? $Allergie->Id : '';
-                    $Naam = isset($Allergie->Naam) ? $Allergie->Naam : '';
-                    $TypePersoon = isset($Allergie->TypePersoon) ? $Allergie->TypePersoon : '';
-                    $IsVertegenwoordiger = isset($row['IsVertegenwoordiger']) && $row['IsVertegenwoordiger'] == 1;
-                    $Gezinsrol = $IsVertegenwoordiger ? 'vertegenwoordiger' : 'gezinslid';
-                    $AllergieNaam = isset($Allergie->Allergie) ? $Allergie->Allergie : '';
+                foreach ($data['Allergie'] as $allergie) {
+                    $id = isset($allergie->Id) ? $allergie->Id : '';
+                    $naam = isset($allergie->Naam) ? $allergie->Naam : '';
+                    $typePersoon = isset($allergie->TypePersoon) ? $allergie->TypePersoon : '';
+                    $isVertegenwoordiger = isset($allergie->IsVertegenwoordiger) && $allergie->IsVertegenwoordiger == 1;
+                    $gezinsrol = $isVertegenwoordiger ? 'vertegenwoordiger' : 'gezinslid';
+                    $allergieNaam = isset($allergie->Allergie) ? $allergie->Allergie : '';
             ?>
             <tr>
-                <input type="hidden" id="id" value="<?= $AllergieId ?>">
-                <td><?= $Naam ?></td>
-                <td><?= $TypePersoon ?></td>
+                <td><?= $naam ?></td>
+                <td><?= $typePersoon ?></td>
                 <td class="float-right">
-                    <span><?= $Gezinsrol ?></span>
+                    <span><?= $gezinsrol ?></span>
                 </td>
-                <td><?= $AllergieNaam ?></td>
+                <td><?= $allergieNaam ?></td>
                 <td>
-                    <a class="btn btn-info" href="<?php echo URLROOT; ?>/GezinsAllergie/wijzigen/<?= $AllergieId ?>">
-                        <i class="fas fa-info-circle" title="Wijzigen Allergie"></i>
+                    <a class="btn btn-info" href="<?= URLROOT ?>/GezinsAllergie/wijzigen/<?= $id ?>">
+                        <i class="fas fa-pencil-alt" title="Wijzigen Allergie"></i>
                     </a>
                 </td>
             </tr>

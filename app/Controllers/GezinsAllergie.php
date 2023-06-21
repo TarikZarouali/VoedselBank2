@@ -1,53 +1,62 @@
 <?php
 
-    Class GezinsAllergie extends BaseController
+class GezinsAllergie extends BaseController
+{
+    private int $delay = 2;
+    private string $infoMessage = '';
+    private mixed $gezinsAllergieModel;
+
+    public function __construct()
     {
+        $this->gezinsAllergieModel = $this->model('GezinsAllergieModel');
+    }
 
-        private int $delay = 2;
-        private string $infoMessage = '';
+    public function index()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $allergyName = $_GET['allergy'] ?? null;
+            $allergieData = ($allergyName !== null && $allergyName !== 'all') ?
+                $this->gezinsAllergieModel->getOverzichtAllergieByFilter($allergyName) :
+                $this->gezinsAllergieModel->getAllergieOverzicht();
 
-        private readonly mixed $GezinsAllergieModel;
+            $hasMatchingPeople = count($allergieData) > 0;
 
-        public function __construct() 
-        {
-            $this->GezinsAllergieModel = $this->model('GezinsAllergieModel');
+            $data = [
+                'Allergie' => $allergieData,
+                'HasMatchingPeople' => $hasMatchingPeople
+            ];
+
+            $this->view('GezinsAllergie/index', $data);
         }
-        
-       public function index()
-{
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        $allergyName = $_GET['allergy'] ?? null;
-        $allergieData = ($allergyName !== null && $allergyName !== 'all') ?
-            $this->GezinsAllergieModel->getoverzichtallergiebyfilter($allergyName) :
-            $this->GezinsAllergieModel->getAllergieOverzicht();
+    }
 
-        $hasMatchingPeople = count($allergieData) > 0;
-        $data = [
-            'Allergie' => $allergieData,
-            'HasMatchingPeople' => $hasMatchingPeople
-        ];
-        $this->view('GezinsAllergie/index', $data);
+    public function details($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $data2['detail'] = $this->gezinsAllergieModel->getDetailsById($id);
+            $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
+
+            $this->view('GezinsAllergie/details', $data, $data2);
+        }
+    }
+
+    public function update($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+            $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
+
+            $this->view('GezinsAllergie/wijzigen', $data);
+        } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $_POST = filter_input_array(INPUT_POST);
+
+            $data = $_POST;
+            $isViewValid = $data;
+
+            if ($isViewValid && $this->gezinsAllergieModel->updateAllergie($data)) {
+                $this->infoMessage = "Selected Sollicitatie has been modified";
+                header("refresh:$this->delay; url=" . URLROOT . '/GezinsAllergie/wijzigen' . $this->infoMessage);
+                $this->view('GezinsAllergie/wijzigen', $data);
+            }
+        }
     }
 }
-
-public function details($id)
-{
-    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        // Fetch selected Gezin by Id from Gezin model.
-        $data2['detail'] = $this->GezinsAllergieModel->getgezinbyid2($id);
-        $data['Allergie'] = $this->GezinsAllergieModel->getgezinbyid($id);
-        // Send the selected Gezin to view Gezin/details.
-        $this->view('GezinsAllergie/details', $data);
-    }
-}
-
-
-
-public function update()
-{
-    
-     $this->view('GezinsAllergie/wijzigen');
-}
-
-    }
-?>
