@@ -13,6 +13,7 @@ class GezinsAllergie extends BaseController
 
     public function index()
     {
+         echo "ik ben bij index";
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $allergyName = $_GET['allergy'] ?? null;
             $allergieData = ($allergyName !== null && $allergyName !== 'all') ?
@@ -31,17 +32,19 @@ class GezinsAllergie extends BaseController
     }
 
     public function details($id)
-    {
-        if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-            $data2['detail'] = $this->gezinsAllergieModel->getDetailsById($id);
-            $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+        $data2['detail'] = $this->gezinsAllergieModel->getDetailsById($id);
+        $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
 
-            $this->view('GezinsAllergie/details', $data, $data2);
-        }
+        $this->view('GezinsAllergie/details', $data, $data2);
     }
+}
+
 
     public function update($id)
     {
+        echo "ik ben bij update";
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
 

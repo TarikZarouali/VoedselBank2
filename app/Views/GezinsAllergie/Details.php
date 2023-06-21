@@ -60,6 +60,17 @@ tr:hover {
 </style>
 
 <h1 style="color: green;">Allergieën in het gezin</h1>
+<?php if (isset($data2['detail'])) : ?>
+<div>
+    <h3>Gezinsgegevens:</h3>
+    <ul>
+        <li>Gezinsnaam: <?= $data2['detail']['gezinsnaam'] ?></li>
+        <li>Omschrijving: <?= $data2['detail']['omschrijving'] ?></li>
+        <li>Totaal aantal personen: <?= $data2['detail']['totaalaantalpersonen'] ?></li>
+    </ul>
+</div>
+<?php endif; ?>
+
 <div class="table-container">
     <table class="table table-hover">
         <thead>
@@ -91,7 +102,7 @@ tr:hover {
                 <td><?= $allergieNaam ?></td>
                 <td>
                     <a class="btn btn-info"
-                        href="<?= URLROOT ?>/GezinsAllergie/wijzigen?id=<?= isset($allergie->Id) ? $allergie->Id : '' ?>">
+                        href="<?= URLROOT ?>/GezinsAllergie/wijzigen?id=<?= isset($id) ? $id : '' ?>">
                         <i class="fas fa-pencil-alt" title="Wijzigen Allergie"></i>
                     </a>
 
