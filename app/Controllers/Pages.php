@@ -13,8 +13,5 @@ class Pages extends BaseController
         $this->view('index', $data);
     }
 
-    // public function about() 
-    // {
-    //     $this->view('about');
-    // }
+    
 }
