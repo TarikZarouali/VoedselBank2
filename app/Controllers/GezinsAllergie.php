@@ -53,7 +53,7 @@ class GezinsAllergie extends BaseController
             $isViewValid = $data;
 
             if ($isViewValid && $this->gezinsAllergieModel->updateAllergie($data)) {
-                $this->infoMessage = "Selected Sollicitatie has been modified";
+                $this->infoMessage = "Selected Allergie has been modified";
                 header("refresh:$this->delay; url=" . URLROOT . '/GezinsAllergie/wijzigen' . $this->infoMessage);
                 $this->view('GezinsAllergie/wijzigen', $data);
             }

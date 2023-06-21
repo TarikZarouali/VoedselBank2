@@ -90,9 +90,11 @@ tr:hover {
                 </td>
                 <td><?= $allergieNaam ?></td>
                 <td>
-                    <a class="btn btn-info" href="<?= URLROOT ?>/GezinsAllergie/wijzigen/<?= $id ?>">
+                    <a class="btn btn-info"
+                        href="<?= URLROOT ?>/GezinsAllergie/wijzigen?id=<?= isset($allergie->Id) ? $allergie->Id : '' ?>">
                         <i class="fas fa-pencil-alt" title="Wijzigen Allergie"></i>
                     </a>
+
                 </td>
             </tr>
             <?php
