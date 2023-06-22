@@ -12,7 +12,7 @@
 
         public function __construct()
         {
-            $this->ConnectionSqlServer();
+            $this->ConnectionMySql();
         }
 
         private function ConnectionMySql()
@@ -28,24 +28,6 @@
             {
                 error_log("ERROR : Failed to connect mySql database!", 0);
                 die('ERROR : Failed to connect mySql database '. $ex->getMessage());
-            }
-        }
-
-        private function ConnectionSqlServer()
-        {
-            // For SqlServer
-            $conn = 'sqlsrv:Server=' . $this->dbHost . 'Database=' . $this->dbName;
-            $options = array(PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
-
-            try 
-            {
-                $this->dbHandler = new PDO($conn, $this->dbUser, $this->dbPass);
-                error_log("INFO : APP has been connected with SqlServer database!", 0);
-            } 
-            catch(PDOException $ex) 
-            {
-                error_log("ERROR : Failed to connect SqlServer database!", 0);
-                die('ERROR : Failed to connect SqlServer database! '. $ex->getMessage());
             }
         }
 
