@@ -13,7 +13,6 @@ class GezinsAllergie extends BaseController
 
     public function index()
     {
-         echo "ik ben bij index";
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $allergyName = $_GET['allergy'] ?? null;
             $allergieData = ($allergyName !== null && $allergyName !== 'all') ?
@@ -31,15 +30,22 @@ class GezinsAllergie extends BaseController
         }
     }
 
-    public function details($id)
-{
-    if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-        $data2['detail'] = $this->gezinsAllergieModel->getDetailsById($id);
-        $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
 
-        $this->view('GezinsAllergie/details', $data, $data2);
+
+public function details(int $id)
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+        // Fetch the Leverancier details by ID from LeverancierModel
+        $dashboardproduct = $this->gezinsAllergieModel->getGezinById($id);
+
+        $data = ['dashboardproduct' => $dashboardproduct];
+
+        // Send the data to the view Leverancier/details.
+        $this->view('GezinsAllergie/details', $data);
     }
 }
+
+
 
 
     public function update($id)
@@ -48,7 +54,7 @@ class GezinsAllergie extends BaseController
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $data['Allergie'] = $this->gezinsAllergieModel->getGezinById($id);
 
-            $this->view('GezinsAllergie/wijzigen', $data);
+            $this->view('GezinsAllergie/update', $data);
         } elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_POST = filter_input_array(INPUT_POST);
 
@@ -58,7 +64,7 @@ class GezinsAllergie extends BaseController
             if ($isViewValid && $this->gezinsAllergieModel->updateAllergie($data)) {
                 $this->infoMessage = "Selected Allergie has been modified";
                 header("refresh:$this->delay; url=" . URLROOT . '/GezinsAllergie/wijzigen' . $this->infoMessage);
-                $this->view('GezinsAllergie/wijzigen', $data);
+                $this->view('GezinsAllergie/update', $data);
             }
         }
     }

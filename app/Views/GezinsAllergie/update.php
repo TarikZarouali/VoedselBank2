@@ -1,4 +1,4 @@
- <form action="<?php echo URLROOT; ?>/GezinsAllergie/wijzigen" method="POST">
+ <form action="<?php echo URLROOT; ?>/GezinsAllergie/update" method="POST">
      <label for="allergy">Select Allergy:</label>
      <select name="allergy" id="allergy">
          <option value="Gluten">Gluten</option>

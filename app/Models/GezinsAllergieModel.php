@@ -43,7 +43,11 @@ class GezinsAllergieModel
             $this->Db->query($getDetailsById);
             $this->Db->bind(':id', $id);
             $result = $this->Db->single();
-            return $result ?? [];
+
+            $conBijId = ($result);
+
+            return $conBijId ?? [];
+
         } catch (PDOException $ex) {
             error_log("ERROR: Failed to get Allergy details from the database in class AllergieModel method getDetailsById!", 0);
             die('ERROR: Failed to get Allergy details from the database in class AllergieModel method getDetailsById! ' . $ex->getMessage());
@@ -54,10 +58,15 @@ class GezinsAllergieModel
     {
         try {
             $getGezinById = "CALL getgezinbyid(:id)";
+
             $this->Db->query($getGezinById);
+            
             $this->Db->bind(':id', $id);
-            $result = $this->Db->resultSet();
-            return $result ?? [];
+            $result = $this->Db->single();
+
+                  $conBijId = ($result);
+
+            return $conBijId ?? [];
         } catch (PDOException $ex) {
             error_log("ERROR: Failed to get Gezin by ID from the database in class AllergieModel method getGezinById!", 0);
             die('ERROR: Failed to get Gezin by ID from the database in class AllergieModel method getGezinById! ' . $ex->getMessage());
